@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="main">
+    <file>hospital-folder-red.png</file>
+    <file>hospital-folder.png</file>
+  </qresource>
+  <qresource prefix="Function">
+    <file>examination_result.png</file>
+    <file>invoice.png</file>
+    <file>add-male-user.png</file>
+    <file>modify-user.png</file>
+    <file>thermometer.png</file>
+    <file>form.png</file>
+  </qresource>
+  <qresource prefix="image">
+    <file>print-file.png</file>
+    <file>xlarge.png</file>
+    <file>expand.png</file>
+    <file>fit-width.png</file>
+    <file>zoom-in.png</file>
+    <file>zoom-out.png</file>
+    <file>form.png</file>
+    <file>image-document.png</file>
+  </qresource>
+</RCC>

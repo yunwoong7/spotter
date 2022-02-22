@@ -1,0 +1,49 @@
+<RCC>
+  <qresource prefix="file">
+    <file>icon/export_csv.png</file>
+    <file>icon/remove_label.png</file>
+    <file>icon/get_group.png</file>
+    <file>icon/eraser.png</file>
+    <file>icon/get_element.png</file>
+    <file>icon/open_file.png</file>
+    <file>icon/save.png</file>
+    <file>icon/open_folder.png</file>
+  </qresource>
+  <qresource prefix="effect">
+    <file>icon/setting.png</file>
+    <file>icon/close.png</file>
+    <file>icon/eye_checked.png</file>
+    <file>icon/eye_unchecked.png</file>
+    <file>icon/grayscale.png</file>
+  </qresource>
+  <qresource prefix="main">
+    <file>icon/setting.png</file>
+    <file>icon/canvas.png</file>
+  </qresource>
+  <qresource prefix="label">
+    <file>icon/label.png</file>
+  </qresource>
+  <qresource prefix="edit">
+    <file>icon/undo.png</file>
+    <file>icon/delete.png</file>
+    <file>icon/edit.png</file>
+    <file>icon/move.png</file>
+    <file>icon/copy.png</file>
+  </qresource>
+  <qresource prefix="view">
+    <file>icon/original_size.png</file>
+    <file>icon/fit_width.png</file>
+    <file>icon/fit_window.png</file>
+    <file>icon/zoom_in.png</file>
+    <file>icon/zoom_out.png</file>
+  </qresource>
+  <qresource prefix="draw">
+    <file>icon/create.png</file>
+    <file>icon/point.png</file>
+    <file>icon/line.png</file>
+    <file>icon/polygon.png</file>
+    <file>icon/rectangular.png</file>
+    <file>icon/circle.png</file>
+    <file>icon/polyline.png</file>
+  </qresource>
+</RCC>
