@@ -1,8 +1,8 @@
 import os
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QMainWindow
-from widgets import CanvasViewWidget
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from config import get_config
 
 import qdarkstyle
 
@@ -25,7 +25,8 @@ class SettingViewWidget(QMainWindow, widget_class):
         Setting
         :return: None
         '''
-        pass
+        self.currentDetector = 'None'
+        self.currentOcrEngine = 'Tesseract'
 
 
     def _loadUiInit(self):
@@ -33,8 +34,7 @@ class SettingViewWidget(QMainWindow, widget_class):
         UI 초기화
         :return: None
         '''
-        self.canvas_view_widget = CanvasViewWidget()
-        self.layoutSettingView.addWidget(self.canvas_view_widget)
+        pass
 
 
     def _setEvent(self):
@@ -42,28 +42,40 @@ class SettingViewWidget(QMainWindow, widget_class):
         event 설정
         :return: None
         '''
-        self.canvas_view_widget.Loaded.connect(self.lodingComplete)
+        self.cb_detector.currentIndexChanged['QString'].connect(self._cbDetectorCurrentIndexChanged)
+        self.cb_ocrEngine.currentIndexChanged['QString'].connect(self._cbOcrEngineCurrentIndexChanged)
 
 
-    def lodingComplete(self, filename, image):
+    def _cbDetectorCurrentIndexChanged(self, value):
         '''
-        이미지로드 완료 후 호출되는 이벤트
-        :param filename: (str)
-        :param image: (qimage)
+        Detector Combo 변경 이벤트
+        :param value: (str)
         :return: None
         '''
-        print(filename)
-        self.SettingViewLoaded.emit(filename, image)
+        self._config = get_config()
+
+        if value in self._config["detection_function"]:
+            self.currentDetector = value
+        else:
+            QMessageBox.information(self, "Select Detector", "현재 지원하지 않습니다.\n({})".format(value))
+            lastitem_idx = self.cb_detector.findText(self.currentDetector)
+            self.cb_detector.setCurrentIndex(lastitem_idx)
 
 
-    def setImage(self, filename, image):
+    def _cbOcrEngineCurrentIndexChanged(self, value):
         '''
-        canvas view widget에 이미지 설정
-        :param filename: (str)
-        :param image: (qimage)
+        OCR Engine Combo 변경 이벤트
+        :param value: (str)
         :return: None
         '''
-        self.canvas_view_widget.setImage(filename, image)
+        self._config = get_config()
+
+        if value in self._config["ocr_engine"]:
+            self.currentOcrEngine = value
+        else:
+            QMessageBox.information(self, "Select OCR Engine", "현재 지원하지 않습니다.\n({})".format(value))
+            lastitem_idx = self.cb_ocrEngine.findText(self.currentOcrEngine)
+            self.cb_ocrEngine.setCurrentIndex(lastitem_idx)
 
 
 if __name__ == "__main__":

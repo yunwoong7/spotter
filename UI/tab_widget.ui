@@ -28,16 +28,16 @@
      <number>0</number>
     </property>
     <item row="0" column="0">
-     <widget class="QTabWidget" name="tab_imageView">
+     <widget class="QTabWidget" name="tab_main">
       <property name="tabPosition">
        <enum>QTabWidget::South</enum>
       </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="result">
        <attribute name="title">
-        <string>Image</string>
+        <string>Result</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <property name="leftMargin">
@@ -57,7 +57,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="setting">
        <attribute name="title">
         <string>Setting</string>
        </attribute>

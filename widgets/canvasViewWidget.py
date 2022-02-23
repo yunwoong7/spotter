@@ -16,6 +16,7 @@ form_class = uic.loadUiType(os.path.join(parentDir, "UI/canvas_view_widget.ui"))
 
 class CanvasViewWidget(QMainWindow, form_class):
     Loaded = pyqtSignal(str, "PyQt_PyObject")
+    Droped = pyqtSignal(str)
 
     FIT_WINDOW, FIT_WIDTH, MANUAL_ZOOM = 0, 1, 2
 
@@ -26,6 +27,7 @@ class CanvasViewWidget(QMainWindow, form_class):
         self._setting()
         self._loadUiInit()
         self._setEvent()
+        self.dropLoad = True
 
         # self.loadImage('/Users/a06790/PycharmProjects/bizfarm_mvp_1/asset/images/test_image.jpg', get_type='file')
         # self.loadImage('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FqIKfN%2FbtrqytiCGXP%2FDrlKqg7nZDNCrHTbosXhK0%2Fimg.jpg', get_type='url')
@@ -117,7 +119,7 @@ class CanvasViewWidget(QMainWindow, form_class):
         self.importDroppedImageFiles(items)
 
 
-    def initData(self):
+    def _initData(self):
         self.image = QImage()
         self.filename = ''
         self.canvas.resetState()
@@ -219,9 +221,33 @@ class CanvasViewWidget(QMainWindow, form_class):
                 self.addZoom(increment=0.9)
 
     # ==================================== Image Load ====================================
+    def getImage(self):
+        '''
+        Get Image
+        :return: (PyQt5.QtGui.QImage)
+        '''
+        return self.image
+
+
+    def getFileName(self):
+        '''
+        Get File Name
+        :return: (str)
+        '''
+        return self.filename
+
+
+    def setAcceptDropLoad(self, bool):
+        '''
+        canvas view widget에 이미지를 Drag&Drop 할 경우 이미지를 Load 여부
+        :param bool: (boolean) True
+        :return: None
+        '''
+        self.dropLoad = bool
+
 
     def loadImage(self, filename=None, get_type='file'):
-        self.initData()
+        self._initData()
 
         self.canvas.setEnabled(False)
 
@@ -285,7 +311,10 @@ class CanvasViewWidget(QMainWindow, form_class):
             if not filename.lower().endswith(tuple(extensions)):
                 continue
 
-            self.loadImage(filename, get_type='file')
+            if self.dropLoad:
+                self.loadImage(filename, get_type='file')
+
+            self.Droped.emit(filename)
 
 
 if __name__ == "__main__":

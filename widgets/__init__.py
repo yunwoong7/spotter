@@ -1,4 +1,5 @@
 from widgets.canvasViewWidget import CanvasViewWidget
 from widgets.settingViewWidget import SettingViewWidget
-from widgets.imageViewWidget import imageViewWidget
-from widgets.imageTabWidget import ImageTabWidget
+from widgets.resultViewWidget import ResultViewWidget
+from widgets.tabWidget import TabWidget
+from widgets.effectItemWidget import EffectItemWidget

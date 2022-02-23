@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>330</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,9 +27,6 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="layoutSettingView"/>
-    </item>
    </layout>
   </widget>
   <widget class="QDockWidget" name="dock_effect">
@@ -145,7 +142,7 @@
   <widget class="QDockWidget" name="dock_detector">
    <property name="minimumSize">
     <size>
-     <width>192</width>
+     <width>218</width>
      <height>150</height>
     </size>
    </property>
@@ -182,6 +179,11 @@
          </item>
          <item>
           <widget class="QComboBox" name="cb_detector">
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
            <item>
             <property name="text">
              <string>YOLOv5</string>
@@ -226,6 +228,17 @@
          <property name="currentIndex">
           <number>0</number>
          </property>
+         <widget class="QWidget" name="page_8">
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>None Page</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
          <widget class="QWidget" name="page">
           <layout class="QGridLayout" name="gridLayout_5">
            <item row="0" column="0">
@@ -313,8 +326,8 @@
   <widget class="QDockWidget" name="dock_ocrEngine">
    <property name="minimumSize">
     <size>
-     <width>62</width>
-     <height>100</height>
+     <width>252</width>
+     <height>126</height>
     </size>
    </property>
    <property name="windowTitle">
@@ -323,7 +336,128 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_3"/>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QGridLayout" name="gridLayout_22">
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <property name="topMargin">
+      <number>5</number>
+     </property>
+     <property name="rightMargin">
+      <number>5</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="lbl_ocrEngine">
+           <property name="text">
+            <string>OCR Engine</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cb_ocrEngine">
+           <item>
+            <property name="text">
+             <string>Tesseract</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>EasyOCR</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Trained Tesseract</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Trained EasyOCR</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DocFormer</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="st_ocrEngine">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="page_9">
+          <layout class="QGridLayout" name="gridLayout_14">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Tessearact 설정 Page</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_10">
+          <layout class="QGridLayout" name="gridLayout_15">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>EasyOCR 설정 page</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_11">
+          <layout class="QGridLayout" name="gridLayout_16">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Trained Tesseract 설정 page</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_12">
+          <layout class="QGridLayout" name="gridLayout_17">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Trained EasyOCR 설정 page</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_13">
+          <layout class="QGridLayout" name="gridLayout_18">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>DocFormer page</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>
@@ -335,12 +469,28 @@
    <slot>setCurrentIndex(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>702</x>
-     <y>272</y>
+     <x>323</x>
+     <y>415</y>
     </hint>
     <hint type="destinationlabel">
-     <x>695</x>
-     <y>309</y>
+     <x>323</x>
+     <y>546</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cb_ocrEngine</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>st_ocrEngine</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>276</x>
+     <y>603</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>621</y>
     </hint>
    </hints>
   </connection>

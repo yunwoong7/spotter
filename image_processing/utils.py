@@ -2,6 +2,7 @@ from math import sqrt
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from image_processing import convert_image
 
 def plt_imshow(img=None, title='image', figsize=(8, 5)):
     '''
@@ -23,10 +24,11 @@ def plt_imshow(img=None, title='image', figsize=(8, 5)):
                 titles.append(title)
 
         for i in range(len(img)):
+            cv_img = convert_image(img[i], image_type='cv2')
             if len(img[i].shape) <= 2:
-                rgbImg = cv2.cvtColor(img[i], cv2.COLOR_GRAY2RGB)
+                rgbImg = cv2.cvtColor(cv_img, cv2.COLOR_GRAY2RGB)
             else:
-                rgbImg = cv2.cvtColor(img[i], cv2.COLOR_BGR2RGB)
+                rgbImg = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
 
             plt.subplot(1, len(img), i + 1), plt.imshow(rgbImg)
             plt.title(titles[i])
@@ -34,10 +36,12 @@ def plt_imshow(img=None, title='image', figsize=(8, 5)):
 
         plt.show()
     else:
-        if len(img.shape) < 3:
-            rgbImg = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        cv_img = convert_image(img, image_type='cv2')
+
+        if len(cv_img.shape) < 3:
+            rgbImg = cv2.cvtColor(cv_img, cv2.COLOR_GRAY2RGB)
         else:
-            rgbImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            rgbImg = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
 
         plt.imshow(rgbImg)
         plt.title(title)

@@ -3,9 +3,11 @@ import io
 import cv2
 import numpy as np
 import requests
+import PIL.ExifTags as ExifTags
 import PIL.Image
 from PIL.JpegImagePlugin import JpegImageFile
 from PIL.PngImagePlugin import PngImageFile
+from PIL.Image import Image as PILImage
 from PyQt5.QtGui import QImageReader, QPixmap, QImage
 from PIL.ImageQt import ImageQt
 
@@ -90,9 +92,9 @@ def apply_exif_orientation(image):
         return image
 
     exif = {
-        PIL.ExifTags.TAGS[k]: v
+        ExifTags.TAGS[k]: v
         for k, v in exif.items()
-        if k in PIL.ExifTags.TAGS
+        if k in ExifTags.TAGS
     }
 
     orientation = exif.get("Orientation", None)
@@ -142,7 +144,7 @@ def pil2cv(pil_image):
     '''
     PIL 이미지를 numpy 배열로 변환
     :param pil_image: (PIL.Image)
-    :return: (numpy)
+    :return: (numpy array)
     '''
     numpy_image = np.array(pil_image)
     opencv_image = cv2.cvtColor(numpy_image, cv2.COLOR_RGB2BGR)
@@ -176,7 +178,7 @@ def cv2pil(opencv_image):
 def cv2bytes(opencv_image):
     '''
     cv2이미지(numpy배열)를 bytes로 변환
-    :param opencv_image: (numpy)
+    :param opencv_image: (numpy array)
     :return: (bytes)
     '''
     is_success, im_buf_arr = cv2.imencode(".jpg", opencv_image)
@@ -188,7 +190,7 @@ def cv2bytes(opencv_image):
 def cv2qimage(opencv_image):
     '''
     cv2이미지(numpy배열)를 QImage로 변환
-    :param pil_image: (numpy)
+    :param opencv_image: (numpy array)
     :return: (PyQt5.QtGui.QImage)
     '''
     height, width, channel = opencv_image.shape
@@ -212,7 +214,7 @@ def bytes2cv(bytes):
     '''
     bytes를 cv2이미지(numpy배열)로 변환
     :param bytes: (bytes)
-    :return: (numpy)
+    :return: (numpy array)
     '''
     encoded_img = np.frombuffer(bytes, dtype=np.uint8)
     opencv_image = cv2.imdecode(encoded_img, cv2.IMREAD_COLOR)
@@ -230,6 +232,24 @@ def bytes2qimage(bytes):
     qimage.loadFromData(bytes)
 
     return qimage
+
+
+def qimage2cv(qimage):
+    '''
+    QImage를 cv2이미지(numpy배열)로 변환
+    :param qimage: (PyQt5.QtGui.QImage)
+    :return: (numpy array)
+    '''
+    qimage = qimage.convertToFormat(4)
+
+    width = qimage.width()
+    height = qimage.height()
+
+    ptr = qimage.bits()
+    ptr.setsize(qimage.byteCount())
+    opencv_image = np.array(ptr).reshape(height, width, 4)
+
+    return opencv_image
 
 
 def convert_image(image, image_type):
@@ -250,7 +270,7 @@ def convert_image(image, image_type):
             pass
         elif image_type == 'qimage':
             result = bytes2qimage(image)
-    elif type(image) in [JpegImageFile, PngImageFile]:
+    elif type(image) in [JpegImageFile, PngImageFile, PILImage]:
         if image_type == 'pil':
             pass
         elif image_type == 'cv2':
@@ -268,8 +288,37 @@ def convert_image(image, image_type):
             result = cv2bytes(image)
         elif image_type == 'qimage':
             result = cv2qimage(image)
+    elif type(image) == ImageQt:
+        if image_type == 'pil':
+            result = qimage2cv(image)
+            result = cv2pil(result)
+        elif image_type == 'cv2':
+            result = qimage2cv(image)
+        elif image_type == 'bytes':
+            result = qimage2cv(image)
+            result = cv2bytes(result)
+        elif image_type == 'qimage':
+            pass
 
     return result
+
+
+def get_type(image):
+    '''
+    이미지 type을 반환
+    :param image: (bytes) or (pil.image) or (numpy array) or (qimage)
+    :return: (str)
+    '''
+    if type(image) == bytes:
+        return 'bytes'
+    elif type(image) in [JpegImageFile, PngImageFile, PILImage]:
+        return 'pil'
+    elif type(image) == np.ndarray:
+        return 'cv2'
+    elif type(image) == PIL.ImageQt.ImageQt:
+        return 'qimage'
+    else:
+        return 'etc'
 
 
 def get_image_list(folder_path):
