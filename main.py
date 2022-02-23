@@ -88,6 +88,7 @@ class MVP1Main(QMainWindow, form_class):
         self.lw_imgList.itemSelectionChanged.connect(self.imgSelectionChanged)
 
         # Canvas View Widget
+        self.canvas_view_widget.Loaded.connect(self.cavasImageLoaded)
         self.canvas_view_widget.Droped.connect(self.cavasImageDroped)
 
 
@@ -199,6 +200,14 @@ class MVP1Main(QMainWindow, form_class):
                 self.canvas_view_widget.loadImage(filename, get_type)
 
 
+    def cavasImageLoaded(self):
+        '''
+        Canvas View Widget에 이미지가 Load되면 호출되는 이벤트
+        :return:
+        '''
+        self.applyImgEffect()
+
+
     def cavasImageDroped(self, filename):
         '''
         Canvas View Widget에 Drag&Drop으로 이미지가 추가되면 호출되는 이벤트
@@ -227,6 +236,10 @@ class MVP1Main(QMainWindow, form_class):
     # ================================= Effect =================================
 
     def effectGrayscale(self):
+        '''
+        그레이스케일 효과 적용
+        :return: None
+        '''
         effect_range_kor, ok = QInputDialog.getItem(self, 'Image Effect', "Grayscale 효과를 추가 하시겠습니까?", ['공통 적용', '선택 이미지 적용'], 0, False)
 
         if ok and effect_range_kor:
@@ -239,8 +252,6 @@ class MVP1Main(QMainWindow, form_class):
             effect_list.append(grayscale_effect)
             self.setEffectListView()
             self.applyImgEffect()
-
-            print(len(effect_list))
 
 
     def setEffectListView(self):
@@ -297,7 +308,7 @@ class MVP1Main(QMainWindow, form_class):
         이미지 효과를 적용
         :return: None
         '''
-        image = self.canvas_view_widget.getImage()
+        image = self.canvas_view_widget.getOrgImage()
         filename = self.canvas_view_widget.getFileName()
 
         if not image.isNull():

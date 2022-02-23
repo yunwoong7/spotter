@@ -38,6 +38,7 @@ class CanvasViewWidget(QMainWindow, form_class):
         Setting
         :return: None
         '''
+        self.org_image = QImage()
         self.image = QImage()
         self.filename = ''
         self._config = get_config()
@@ -120,6 +121,7 @@ class CanvasViewWidget(QMainWindow, form_class):
 
 
     def _initData(self):
+        self.org_image = QImage()
         self.image = QImage()
         self.filename = ''
         self.canvas.resetState()
@@ -228,6 +230,13 @@ class CanvasViewWidget(QMainWindow, form_class):
         '''
         return self.image
 
+    def getOrgImage(self):
+        '''
+        Get Original Image
+        :return: (PyQt5.QtGui.QImage)
+        '''
+        return self.org_image
+
 
     def getFileName(self):
         '''
@@ -267,6 +276,7 @@ class CanvasViewWidget(QMainWindow, form_class):
 
 
     def lodingComplete(self, filename, image):
+        self.org_image = image
         self.setImage(filename, image)
         self.paintCanvas()
         self.Loaded.emit(filename, image)

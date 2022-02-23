@@ -288,7 +288,7 @@ def convert_image(image, image_type):
             result = cv2bytes(image)
         elif image_type == 'qimage':
             result = cv2qimage(image)
-    elif type(image) == ImageQt:
+    elif type(image) in [ImageQt, QImage]:
         if image_type == 'pil':
             result = qimage2cv(image)
             result = cv2pil(result)
