@@ -1,0 +1,1 @@
+from image_processing.edge_detectors.hed import HED

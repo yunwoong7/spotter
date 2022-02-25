@@ -47,14 +47,16 @@ class EffectItemWidget(QDialog, dig_class):
 
         if self.effect_type == 'Grayscale':
             self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'grayscale.png'))
+        elif self.effect_type == 'Scanned':
+            self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'scan.png'))
         elif self.effect_type == 'Document verification':
             self.lbl_icon.setPixmap(QPixmap(':/icon/' + 'document.png'))
 
-
-        if self.effect.existOption():
-            pass
-        else:
-            self.btn_setting.hide()
+        self.btn_setting.hide()
+        # if self.effect.existOption():
+        #     pass
+        # else:
+        #     self.btn_setting.hide()
 
 
     def closeClicked(self):

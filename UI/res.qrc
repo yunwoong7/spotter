@@ -10,6 +10,7 @@
     <file>icon/open_folder.png</file>
   </qresource>
   <qresource prefix="effect">
+    <file>icon/scan.png</file>
     <file>icon/setting.png</file>
     <file>icon/close.png</file>
     <file>icon/eye_checked.png</file>
@@ -19,9 +20,6 @@
   <qresource prefix="main">
     <file>icon/setting.png</file>
     <file>icon/canvas.png</file>
-  </qresource>
-  <qresource prefix="label">
-    <file>icon/label.png</file>
   </qresource>
   <qresource prefix="edit">
     <file>icon/undo.png</file>

@@ -9,6 +9,7 @@ from PIL.JpegImagePlugin import JpegImageFile
 from PIL.PngImagePlugin import PngImageFile
 from PIL.Image import Image as PILImage
 from PyQt5.QtGui import QImageReader, QPixmap, QImage
+from PyQt5 import QtGui
 from PIL.ImageQt import ImageQt
 
 
@@ -193,9 +194,16 @@ def cv2qimage(opencv_image):
     :param opencv_image: (numpy array)
     :return: (PyQt5.QtGui.QImage)
     '''
-    height, width, channel = opencv_image.shape
-    bytesPerLine = 3 * width
-    qimage = QImage(opencv_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
+
+    if len(opencv_image.shape) == 3:
+        if opencv_image.shape[2] == 3:
+            height, width, channels = opencv_image.shape
+            bytesPerLine = channels * width
+            qimage = QtGui.QImage(opencv_image.data, width, height, bytesPerLine, QtGui.QImage.Format_RGB888)
+        elif opencv_image.shape[2] == 4:
+            height, width, channels = opencv_image.shape
+            bytesPerLine = channels * width
+            qimage = QtGui.QImage(opencv_image.data, width, height, bytesPerLine, QtGui.QImage.Format_ARGB32)
 
     return qimage
 

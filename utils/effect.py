@@ -1,9 +1,9 @@
 import uuid
-from image_processing import convert_image, grayScale
+from image_processing import convert_image, grayScale, cannyScan, hedScan
 
 class Effect(object):
-    effect_data = {}
     def __init__(self, effect_type, option={}):
+        self.effect_data = {}
         self.id = str(uuid.uuid4())
         self.effect_type = effect_type
         self.effect_data['option'] = option
@@ -17,6 +17,12 @@ class Effect(object):
     def getType(self):
         return self.effect_type
 
+    def getOption(self, key):
+        if self.existOption():
+            return self.effect_data['option'][key]
+        else:
+            return ''
+
     def existOption(self):
         if self.effect_data['option'] == {}:
             return False
@@ -24,10 +30,15 @@ class Effect(object):
             return True
 
     def apply(self, img):
-        cv_img = convert_image(img, 'cv2')
+        result_img = convert_image(img, 'cv2')
 
         if self.effect_type == 'Grayscale':
-            result_img = grayScale(cv_img)
+            result_img = grayScale(result_img)
+        elif self.effect_type == 'Scanned':
+            if self.getOption('type') == 'canny':
+                result_img = cannyScan(result_img, 500)
+            elif self.getOption('type') == 'hed':
+                result_img = hedScan(result_img, 500)
 
         result_img = convert_image(result_img, 'qimage')
 

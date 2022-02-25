@@ -104,6 +104,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_grayscale"/>
+   <addaction name="action_scannedImage"/>
   </widget>
   <action name="action_openFile">
    <property name="enabled">
@@ -193,6 +194,21 @@
    </property>
    <property name="toolTip">
     <string>Grayscale</string>
+   </property>
+  </action>
+  <action name="action_scannedImage">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/effect/icon/scan.png</normaloff>:/effect/icon/scan.png</iconset>
+   </property>
+   <property name="text">
+    <string>Change to scanned image</string>
+   </property>
+   <property name="toolTip">
+    <string>Change to scanned image</string>
    </property>
   </action>
  </widget>

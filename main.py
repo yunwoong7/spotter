@@ -3,9 +3,11 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtGui import QImageReader
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QApplication, QToolButton, QMenu, QFileDialog, QListWidgetItem, QInputDialog
+from PyQt5.QtWidgets import QMainWindow, QApplication, QToolButton, QMenu, QFileDialog, QListWidgetItem, QInputDialog, \
+    QProgressDialog, QSizePolicy, QMessageBox
 from widgets import TabWidget, CanvasViewWidget, EffectItemWidget
 from utils import Effect
+from utils import EffectThread
 
 import qdarkstyle
 from config import get_config
@@ -23,6 +25,7 @@ class MVP1Main(QMainWindow, form_class):
         self._loadUiInit()
         self._setEvent()
 
+
     def _setting(self):
         '''
         Setting
@@ -33,8 +36,6 @@ class MVP1Main(QMainWindow, form_class):
 
         self.common_effect = []
         self.each_effect = []
-
-        print(self._config["detection_function"])
 
 
     def _loadUiInit(self):
@@ -83,6 +84,7 @@ class MVP1Main(QMainWindow, form_class):
         self.action_openFile.triggered.connect(self.openFile)
         self.action_openFolder.triggered.connect(self.openFolder)
         self.action_grayscale.triggered.connect(self.effectGrayscale)
+        self.action_scannedImage.triggered.connect(self.effectScannedImage)
 
         # Image List
         self.lw_imgList.itemSelectionChanged.connect(self.imgSelectionChanged)
@@ -240,15 +242,42 @@ class MVP1Main(QMainWindow, form_class):
         그레이스케일 효과 적용
         :return: None
         '''
-        effect_range_kor, ok = QInputDialog.getItem(self, 'Image Effect', "Grayscale 효과를 추가 하시겠습니까?", ['공통 적용', '선택 이미지 적용'], 0, False)
+        reply = QMessageBox.question(self, 'Image Effect', "Grayscale 효과를 추가 하시겠습니까?", QMessageBox.Yes, QMessageBox.No)
 
-        if ok and effect_range_kor:
-            if effect_range_kor == '공통 적용':
-                effect_list = self.common_effect
-            else:
-                effect_list = self.each_effect
-
+        if reply == QMessageBox.Yes:
+            effect_list = self.common_effect
             grayscale_effect = Effect(effect_type='Grayscale')
+            effect_list.append(grayscale_effect)
+
+            self.setEffectListView()
+            self.applyImgEffect()
+
+        # effect_range_kor, ok = QInputDialog.getItem(self, 'Image Effect', "Grayscale 효과를 추가 하시겠습니까?",
+        #                                             ['공통 적용', '선택 이미지 적용'], 0, False)
+        #
+        # if ok and effect_range_kor:
+        #     if effect_range_kor == '공통 적용':
+        #         effect_list = self.common_effect
+        #     else:
+        #         effect_list = self.each_effect
+        #
+        #     grayscale_effect = Effect(effect_type='Grayscale')
+        #     effect_list.append(grayscale_effect)
+        #     self.setEffectListView()
+        #     self.applyImgEffect()
+
+
+    def effectScannedImage(self):
+        '''
+        그레이스케일 효과 적용
+        :return: None
+        '''
+        effect_type, ok = QInputDialog.getItem(self, 'Image Effect', "Scan 이미지 효과를 추가 하시겠습니까?", ['canny', 'hed'], 0, False)
+
+        if ok and effect_type:
+            option = {'type' : effect_type}
+            effect_list = self.common_effect
+            grayscale_effect = Effect(effect_type='Scanned', option=option)
             effect_list.append(grayscale_effect)
             self.setEffectListView()
             self.applyImgEffect()
@@ -311,16 +340,34 @@ class MVP1Main(QMainWindow, form_class):
         image = self.canvas_view_widget.getOrgImage()
         filename = self.canvas_view_widget.getFileName()
 
-        if not image.isNull():
-            for effect in self.common_effect:
-                image = effect.apply(image)
+        self._progress = QProgressDialog()
+        self._progress.setLabelText('Applying...')
+        self._progress.setRange(0, 0)
+        self._progress.setCancelButton(None)
+        self._progress.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self._progress.setWindowFlag(Qt.FramelessWindowHint)
+        self._progress.setModal(True)
 
-            for effect in self.each_effect:
-                image = effect.apply(image)
+        self.worker = EffectThread(image=image, filename=filename, common_effect=self.common_effect,  each_effect=self.each_effect)
+        self.worker.Completed.connect(self.effectCompleted)
+        # self.worker.finished.connect(self.loadImageFinished)
+        self._progress.show()
+        self.worker.start()
 
-        self.canvas_view_widget.setImage(filename, image)
+        # if not image.isNull():
+        #     for effect in self.common_effect:
+        #         image = effect.apply(image)
+        #
+        #     for effect in self.each_effect:
+        #         image = effect.apply(image)
+
+        # self.canvas_view_widget.setImage(filename, image)
             # self.canvas.loadPixmap(QPixmap.fromImage(image))
             # self.paintCanvas()
+
+    def effectCompleted(self, filename, image):
+        self.canvas_view_widget.setImage(filename, image)
+        self._progress.hide()
 
 
 if __name__ == "__main__":
