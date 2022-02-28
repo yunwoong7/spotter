@@ -40,6 +40,7 @@ class EffectItemWidget(QDialog, dig_class):
     def _setEvent(self):
         self.btn_setting.clicked.connect(self.settingClicked)
         self.btn_close.clicked.connect(self.closeClicked)
+        self.btn_show.clicked.connect(self.showClicked)
 
 
     def setWidget(self):
@@ -52,12 +53,15 @@ class EffectItemWidget(QDialog, dig_class):
         elif self.effect_type == 'Document verification':
             self.lbl_icon.setPixmap(QPixmap(':/icon/' + 'document.png'))
 
-        self.btn_setting.hide()
-        # if self.effect.existOption():
-        #     pass
-        # else:
-        #     self.btn_setting.hide()
+        # self.btn_setting.hide()
+        if self.effect.existOption():
+            pass
+        else:
+            self.btn_setting.hide()
 
+    def showClicked(self):
+        self.effect.setApplied(self.btn_show.isChecked())
+        self.mainWidget.applyImgEffect()
 
     def closeClicked(self):
         reply = QMessageBox.question(self.mainWidget, 'Effect 삭제', "[{}] Effect를 삭제하시겠습니까?".format(self.effect_type), QMessageBox.Yes, QMessageBox.No)

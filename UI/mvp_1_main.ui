@@ -106,6 +106,18 @@
    <addaction name="action_grayscale"/>
    <addaction name="action_scannedImage"/>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_ocr"/>
+  </widget>
   <action name="action_openFile">
    <property name="enabled">
     <bool>true</bool>
@@ -209,6 +221,21 @@
    </property>
    <property name="toolTip">
     <string>Change to scanned image</string>
+   </property>
+  </action>
+  <action name="action_ocr">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/recognition/icon/text-box.png</normaloff>:/recognition/icon/text-box.png</iconset>
+   </property>
+   <property name="text">
+    <string>Optical Character Recognition (OCR)</string>
+   </property>
+   <property name="toolTip">
+    <string>Optical Character Recognition (OCR)</string>
    </property>
   </action>
  </widget>

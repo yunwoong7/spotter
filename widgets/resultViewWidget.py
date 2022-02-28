@@ -40,6 +40,9 @@ class ResultViewWidget(QMainWindow, widget_class):
         '''
         pass
 
+    def setOcrResult(self, text):
+        self.edt_ocrResult.setText(str(text))
+
 
 if __name__ == "__main__":
     import sys

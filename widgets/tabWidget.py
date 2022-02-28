@@ -57,6 +57,14 @@ class TabWidget(QMainWindow, widget_class):
         self.tab_main.setCurrentIndex(index)
 
 
+    def getOcrMethod(self):
+        '''
+        Setting View Widget의 OCR Method를 Return
+        :return: (str)
+        '''
+        return self.setting_view_widget.cb_ocrEngine.currentText()
+
+
 if __name__ == "__main__":
     import sys
     from PyQt5.QtWidgets import QApplication

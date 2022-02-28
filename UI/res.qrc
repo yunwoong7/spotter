@@ -9,6 +9,9 @@
     <file>icon/save.png</file>
     <file>icon/open_folder.png</file>
   </qresource>
+  <qresource prefix="recognition">
+    <file>icon/text-box.png</file>
+  </qresource>
   <qresource prefix="effect">
     <file>icon/scan.png</file>
     <file>icon/setting.png</file>

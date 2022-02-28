@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QToolButton, QMenu, QFile
     QProgressDialog, QSizePolicy, QMessageBox
 from widgets import TabWidget, CanvasViewWidget, EffectItemWidget
 from utils import Effect
-from utils import EffectThread
+from utils import EffectThread, RecognitionThread
 
 import qdarkstyle
 from config import get_config
@@ -72,6 +72,7 @@ class MVP1Main(QMainWindow, form_class):
         self.tab_widget = TabWidget()
         self.lw_commonEffectList = self.tab_widget.lw_commonEffectList
         self.lw_eachEffectList = self.tab_widget.lw_eachEffectList
+        self.resultViewWidget = self.tab_widget.result_view_widget
         self.layoutTab.addWidget(self.tab_widget)
 
 
@@ -85,6 +86,7 @@ class MVP1Main(QMainWindow, form_class):
         self.action_openFolder.triggered.connect(self.openFolder)
         self.action_grayscale.triggered.connect(self.effectGrayscale)
         self.action_scannedImage.triggered.connect(self.effectScannedImage)
+        self.action_ocr.triggered.connect(self.textRecognition)
 
         # Image List
         self.lw_imgList.itemSelectionChanged.connect(self.imgSelectionChanged)
@@ -235,6 +237,21 @@ class MVP1Main(QMainWindow, form_class):
         return lst
 
 
+    def progressbarShow(self, text):
+        self._progress = QProgressDialog()
+        self._progress.setLabelText(text)
+        self._progress.setRange(0, 0)
+        self._progress.setCancelButton(None)
+        self._progress.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self._progress.setWindowFlag(Qt.FramelessWindowHint)
+        self._progress.setModal(True)
+        self._progress.show()
+
+
+    def progressbarHide(self):
+        self._progress.hide()
+
+
     # ================================= Effect =================================
 
     def effectGrayscale(self):
@@ -340,18 +357,10 @@ class MVP1Main(QMainWindow, form_class):
         image = self.canvas_view_widget.getOrgImage()
         filename = self.canvas_view_widget.getFileName()
 
-        self._progress = QProgressDialog()
-        self._progress.setLabelText('Applying...')
-        self._progress.setRange(0, 0)
-        self._progress.setCancelButton(None)
-        self._progress.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self._progress.setWindowFlag(Qt.FramelessWindowHint)
-        self._progress.setModal(True)
-
         self.worker = EffectThread(image=image, filename=filename, common_effect=self.common_effect,  each_effect=self.each_effect)
         self.worker.Completed.connect(self.effectCompleted)
         # self.worker.finished.connect(self.loadImageFinished)
-        self._progress.show()
+        self.progressbarShow('Applying...')
         self.worker.start()
 
         # if not image.isNull():
@@ -367,7 +376,23 @@ class MVP1Main(QMainWindow, form_class):
 
     def effectCompleted(self, filename, image):
         self.canvas_view_widget.setImage(filename, image)
-        self._progress.hide()
+        self.progressbarHide()
+
+
+    def textRecognition(self):
+        ocr_method = self.tab_widget.getOcrMethod()
+
+        self.progressbarShow('Text Recognition...')
+        image = self.canvas_view_widget.getImage()
+        self.recogWorker = RecognitionThread(image=image, method=ocr_method)
+        self.recogWorker.Completed.connect(self.testRecognitionCompleted)
+        self.recogWorker.start()
+
+
+    def testRecognitionCompleted(self, text):
+        self.resultViewWidget.setOcrResult(text)
+        self.tab_widget.setCurrentIndex(0)
+        self.progressbarHide()
 
 
 if __name__ == "__main__":
