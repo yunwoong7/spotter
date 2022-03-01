@@ -104,3 +104,33 @@ def draw_contours(image, contour):
     output = convert_image(output, image_type)
 
     return output
+
+
+def rotate(image, degrees):
+    '''
+    이미지 회전
+    :param image: (bytes) or (pil.image) or (numpy array) or (qimage)
+    :param degrees: (int)
+    :return: (bytes) or (pil.image) or (numpy array) or (qimage)
+    '''
+    image_type = get_type(image)
+    cv_image = convert_image(image, 'cv2')
+    rotated = imutils.rotate_bound(cv_image, degrees)
+    rotated = convert_image(rotated, image_type)
+
+    return rotated
+
+
+def flip(image, flip_code):
+    '''
+    이미지 상하 뒤집기
+    :param image: (bytes) or (pil.image) or (numpy array) or (qimage)
+    :param flip_code: (int) 0 : vertically, 1: horizontally, -1: horizontally and vertically
+    :return: (bytes) or (pil.image) or (numpy array) or (qimage)
+    '''
+    image_type = get_type(image)
+    cv_image = convert_image(image, 'cv2')
+    flipped = cv2.flip(cv_image, flip_code)
+    flipped = convert_image(flipped, image_type)
+
+    return flipped

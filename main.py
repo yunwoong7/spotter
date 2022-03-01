@@ -86,6 +86,9 @@ class MVP1Main(QMainWindow, form_class):
         self.action_openFolder.triggered.connect(self.openFolder)
         self.action_grayscale.triggered.connect(self.effectGrayscale)
         self.action_scannedImage.triggered.connect(self.effectScannedImage)
+        self.action_rotate.triggered.connect(self.effectRotatedImage)
+        self.action_horizontalFlip.triggered.connect(self.effectHorizontalFlip)
+        self.action_verticalFlip.triggered.connect(self.effectVerticalFlip)
         self.action_ocr.triggered.connect(self.textRecognition)
 
         # Image List
@@ -296,6 +299,54 @@ class MVP1Main(QMainWindow, form_class):
             effect_list = self.common_effect
             grayscale_effect = Effect(effect_type='Scanned', option=option)
             effect_list.append(grayscale_effect)
+            self.setEffectListView()
+            self.applyImgEffect()
+
+
+    def effectRotatedImage(self):
+        '''
+        이미지회전 적용
+        :return: None
+        '''
+        degrees, ok = QInputDialog.getInt(self, 'Image Effect', "이미지 회전 효과를 추가 하시겠습니까?", 90, 1, 360, 10)
+
+        if ok and degrees:
+            option = {'degrees': degrees}
+            effect_list = self.common_effect
+            rotate_effect = Effect(effect_type='Rotate', option=option)
+            effect_list.append(rotate_effect)
+            self.setEffectListView()
+            self.applyImgEffect()
+
+
+    def effectHorizontalFlip(self):
+        '''
+        수평 미리렁 효과 적용
+        :return: None
+        '''
+        reply = QMessageBox.question(self, 'Image Effect', "수평 미리렁 효과를 추가 하시겠습니까?", QMessageBox.Yes, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            effect_list = self.common_effect
+            horizontalFlip_effect = Effect(effect_type='Horizontal Flip')
+            effect_list.append(horizontalFlip_effect)
+
+            self.setEffectListView()
+            self.applyImgEffect()
+
+
+    def effectVerticalFlip(self):
+        '''
+        수평 미리렁 효과 적용
+        :return: None
+        '''
+        reply = QMessageBox.question(self, 'Image Effect', "수직 미리렁 효과를 추가 하시겠습니까?", QMessageBox.Yes, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            effect_list = self.common_effect
+            verticalFlip_effect = Effect(effect_type='Vertical Flip')
+            effect_list.append(verticalFlip_effect)
+
             self.setEffectListView()
             self.applyImgEffect()
 

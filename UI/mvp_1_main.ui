@@ -105,6 +105,9 @@
    </attribute>
    <addaction name="action_grayscale"/>
    <addaction name="action_scannedImage"/>
+   <addaction name="action_rotate"/>
+   <addaction name="action_horizontalFlip"/>
+   <addaction name="action_verticalFlip"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -236,6 +239,51 @@
    </property>
    <property name="toolTip">
     <string>Optical Character Recognition (OCR)</string>
+   </property>
+  </action>
+  <action name="action_rotate">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/effect/icon/rotate.png</normaloff>:/effect/icon/rotate.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate</string>
+   </property>
+  </action>
+  <action name="action_horizontalFlip">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/effect/icon/flip-vertical.png</normaloff>:/effect/icon/flip-vertical.png</iconset>
+   </property>
+   <property name="text">
+    <string>flipping image horizontally</string>
+   </property>
+   <property name="toolTip">
+    <string>flipping image horizontally</string>
+   </property>
+  </action>
+  <action name="action_verticalFlip">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/effect/icon/flip-horizontal.png</normaloff>:/effect/icon/flip-horizontal.png</iconset>
+   </property>
+   <property name="text">
+    <string>flipping image vertically</string>
+   </property>
+   <property name="toolTip">
+    <string>flipping image vertically</string>
    </property>
   </action>
  </widget>

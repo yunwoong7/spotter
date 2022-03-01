@@ -1,5 +1,5 @@
 import uuid
-from image_processing import convert_image, grayScale, cannyScan, hedScan
+from image_processing import convert_image, grayScale, cannyScan, hedScan, rotate, flip
 
 class Effect(object):
     def __init__(self, effect_type, option={}):
@@ -47,6 +47,12 @@ class Effect(object):
                     result_img = cannyScan(result_img, 500)
                 elif self.getOption('type') == 'hed':
                     result_img = hedScan(result_img, 500)
+            elif self.effect_type == 'Rotate':
+                result_img = rotate(result_img, self.getOption('degrees'))
+            elif self.effect_type == 'Horizontal Flip':
+                result_img = flip(result_img, 1)
+            elif self.effect_type == 'Vertical Flip':
+                result_img = flip(result_img, 0)
 
             result_img = convert_image(result_img, 'qimage')
             return result_img

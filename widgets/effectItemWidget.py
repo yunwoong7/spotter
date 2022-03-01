@@ -50,6 +50,12 @@ class EffectItemWidget(QDialog, dig_class):
             self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'grayscale.png'))
         elif self.effect_type == 'Scanned':
             self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'scan.png'))
+        elif self.effect_type == 'Rotate':
+            self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'rotate.png'))
+        elif self.effect_type == 'Horizontal Flip':
+            self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'flip-vertical.png'))
+        elif self.effect_type == 'Vertical Flip':
+            self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'flip-horizontal.png'))
         elif self.effect_type == 'Document verification':
             self.lbl_icon.setPixmap(QPixmap(':/icon/' + 'document.png'))
 

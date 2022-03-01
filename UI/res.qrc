@@ -13,6 +13,9 @@
     <file>icon/text-box.png</file>
   </qresource>
   <qresource prefix="effect">
+    <file>icon/flip-horizontal.png</file>
+    <file>icon/flip-vertical.png</file>
+    <file>icon/rotate.png</file>
     <file>icon/scan.png</file>
     <file>icon/setting.png</file>
     <file>icon/close.png</file>
