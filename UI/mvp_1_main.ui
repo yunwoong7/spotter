@@ -106,6 +106,7 @@
    <addaction name="action_grayscale"/>
    <addaction name="action_scannedImage"/>
    <addaction name="action_rotate"/>
+   <addaction name="action_resize"/>
    <addaction name="action_horizontalFlip"/>
    <addaction name="action_verticalFlip"/>
   </widget>
@@ -284,6 +285,21 @@
    </property>
    <property name="toolTip">
     <string>flipping image vertically</string>
+   </property>
+  </action>
+  <action name="action_resize">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/effect/icon/resize.png</normaloff>:/effect/icon/resize.png</iconset>
+   </property>
+   <property name="text">
+    <string>image resize</string>
+   </property>
+   <property name="toolTip">
+    <string>image resize</string>
    </property>
   </action>
  </widget>

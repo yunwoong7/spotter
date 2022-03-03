@@ -25,7 +25,7 @@ def plt_imshow(img=None, title='image', figsize=(8, 5)):
 
         for i in range(len(img)):
             cv_img = convert_image(img[i], image_type='cv2')
-            if len(img[i].shape) <= 2:
+            if len(cv_img.shape) <= 2:
                 rgbImg = cv2.cvtColor(cv_img, cv2.COLOR_GRAY2RGB)
             else:
                 rgbImg = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)

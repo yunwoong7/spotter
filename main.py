@@ -87,6 +87,7 @@ class MVP1Main(QMainWindow, form_class):
         self.action_grayscale.triggered.connect(self.effectGrayscale)
         self.action_scannedImage.triggered.connect(self.effectScannedImage)
         self.action_rotate.triggered.connect(self.effectRotatedImage)
+        self.action_resize.triggered.connect(self.effectResizedImage)
         self.action_horizontalFlip.triggered.connect(self.effectHorizontalFlip)
         self.action_verticalFlip.triggered.connect(self.effectVerticalFlip)
         self.action_ocr.triggered.connect(self.textRecognition)
@@ -315,6 +316,19 @@ class MVP1Main(QMainWindow, form_class):
             effect_list = self.common_effect
             rotate_effect = Effect(effect_type='Rotate', option=option)
             effect_list.append(rotate_effect)
+            self.setEffectListView()
+            self.applyImgEffect()
+
+
+    def effectResizedImage(self):
+        width, ok = QInputDialog.getInt(self, 'Image Effect', "이미지 사이즈를 조정 하시겠습니까?\n(width 값)", 800, 1, 5000, 10)
+
+        if ok and width:
+            option = {'width': width,
+                      'height': None}
+            effect_list = self.common_effect
+            resieze_effect = Effect(effect_type='Resize', option=option)
+            effect_list.append(resieze_effect)
             self.setEffectListView()
             self.applyImgEffect()
 

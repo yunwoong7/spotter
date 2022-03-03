@@ -52,6 +52,8 @@ class EffectItemWidget(QDialog, dig_class):
             self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'scan.png'))
         elif self.effect_type == 'Rotate':
             self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'rotate.png'))
+        elif self.effect_type == 'Resize':
+            self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'resize.png'))
         elif self.effect_type == 'Horizontal Flip':
             self.lbl_icon.setPixmap(QPixmap(':/effect/icon/' + 'flip-vertical.png'))
         elif self.effect_type == 'Vertical Flip':

@@ -134,3 +134,26 @@ def flip(image, flip_code):
     flipped = convert_image(flipped, image_type)
 
     return flipped
+
+
+def resize(image, width=None, height=None):
+    '''
+    이미지 크기 조정
+    :param image: (bytes) or (pil.image) or (numpy array) or (qimage)
+    :param width: (int)
+    :param height: (int)
+    :return: (bytes) or (pil.image) or (numpy array) or (qimage)
+    '''
+    if width is None and height is None:
+        return image
+
+    image_type = get_type(image)
+    cv_image = convert_image(image, 'cv2')
+
+    if width is None:
+        resized = imutils.resize(cv_image, height=height)
+    else:
+        resized = imutils.resize(cv_image, width=width)
+
+    resized = convert_image(resized, image_type)
+    return resized
