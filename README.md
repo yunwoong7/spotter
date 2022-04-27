@@ -1,5 +1,5 @@
 <h2 align="center">
-Bizfarm MVP #1
+Spotter
 </h2>
 <div align="center">
   <img src="https://img.shields.io/badge/python-v3.7-blue.svg"/>
